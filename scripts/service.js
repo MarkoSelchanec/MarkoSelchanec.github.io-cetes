@@ -6,14 +6,15 @@ export const showCart = () => {
   $('#carouselCaptions').addClass('d-none');
   $('#paginate').addClass('d-none');
   $('.pagination').empty();
+  // const
   makeCart();
+  $('.table').append('<p>ASDASDA</p>');
 };
 // Add items to array which gets added to cart
 const makeCart = () => {
-  console.log(cartArray);
-  $(".table-body").empty()
+  $('.table-body').empty();
   let tempArr = groupBy(cartArray, 'name');
-  for (const item of tempArr) {
+  for (let item of tempArr) {
     const row = document.createElement('tr');
     const tvalues = [
       item.values[0].img,
@@ -23,8 +24,20 @@ const makeCart = () => {
       item.values[0].price * item.values.length,
     ];
     $('.table-body').append(row);
-    for (let i = 0; i < 5; i++) {
+    for (let i = -1; i < 5; i++) {
       const cell = document.createElement('td');
+      if (i === -1) {
+        const btn = document.createElement('button');
+        $(btn)
+          .text('X')
+          .addClass('btn btn-primary text-white text-center');
+        $(btn).click(() => {
+          $(row).empty();
+          cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
+          $('.shopping-cart-items').text(cartArray.length);
+        });
+        $(cell).html(btn);
+      }
       if (i === 0) {
         const img = document.createElement('img');
         $(img)
@@ -34,6 +47,9 @@ const makeCart = () => {
           .css('object-fit', 'cover');
         $(cell).html(img);
       } else {
+        if (i === 1 || i === 3) {
+          $(cell).addClass('d-md-table-cell d-none');
+        }
         $(cell).html(tvalues[i]);
       }
       $(row).append(cell);
