@@ -6,55 +6,75 @@ export const showCart = () => {
   $('#carouselCaptions').addClass('d-none');
   $('#paginate').addClass('d-none');
   $('.pagination').empty();
-  // const
+  if (cartArray.length !== 0) {
+    $('.table').removeClass('d-none');
+    $('.table').addClass('d-table');
+  }
   makeCart();
-  $('.table').append('<p>ASDASDA</p>');
 };
 // Add items to array which gets added to cart
 const makeCart = () => {
   $('.table-body').empty();
-  let tempArr = groupBy(cartArray, 'name');
-  for (let item of tempArr) {
-    const row = document.createElement('tr');
-    const tvalues = [
-      item.values[0].img,
-      item.key,
-      item.values.length,
-      item.values[0].price,
-      item.values[0].price * item.values.length,
-    ];
-    $('.table-body').append(row);
-    for (let i = -1; i < 5; i++) {
-      const cell = document.createElement('td');
-      if (i === -1) {
-        const btn = document.createElement('button');
-        $(btn)
-          .text('X')
-          .addClass('btn btn-primary text-white text-center');
-        $(btn).click(() => {
-          $(row).empty();
-          cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
-          $('.shopping-cart-items').text(cartArray.length);
-        });
-        $(cell).html(btn);
-      }
-      if (i === 0) {
-        const img = document.createElement('img');
-        $(img)
-          .attr('src', tvalues[i])
-          .attr('alt', 'item-image')
-          .css('height', '50px')
-          .css('object-fit', 'cover');
-        $(cell).html(img);
-      } else {
-        if (i === 1 || i === 3) {
-          $(cell).addClass('d-md-table-cell d-none');
+  console.log(cartArray);
+  if (cartArray.length === 0) {
+    createJumbo();
+  } else {
+    let tempArr = groupBy(cartArray, 'name');
+    for (let item of tempArr) {
+      const row = document.createElement('tr');
+      const tvalues = [
+        item.values[0].img,
+        item.key,
+        item.values.length,
+        item.values[0].price,
+        item.values[0].price * item.values.length,
+      ];
+      $('.table-body').append(row);
+      for (let i = -1; i < 5; i++) {
+        const cell = document.createElement('td');
+        if (i === -1) {
+          const btn = document.createElement('button');
+          $(btn).text('X').addClass('btn btn-primary text-white text-center');
+          $(btn).click(() => {
+            $(row).empty();
+            cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
+            $('.shopping-cart-items').text(cartArray.length);
+            $('.table').addClass('d-none');
+            $('.table').removeClass('d-table');
+            createJumbo();
+          });
+          $(cell).html(btn);
         }
-        $(cell).html(tvalues[i]);
+        if (i === 0) {
+          const img = document.createElement('img');
+          $(img)
+            .attr('src', tvalues[i])
+            .attr('alt', 'item-image')
+            .css('height', '50px')
+            .css('object-fit', 'cover');
+          $(cell).html(img);
+        } else {
+          if (i === 1 || i === 3) {
+            $(cell).addClass('d-md-table-cell d-none');
+          }
+          $(cell).html(tvalues[i]);
+        }
+        $(row).append(cell);
       }
-      $(row).append(cell);
     }
   }
+};
+// Create and show jumbotron for empty cart
+const createJumbo = () => {
+  const jumbotron = document.createElement('div');
+  $(jumbotron).addClass('jumbotron jumbotron-fluid m-5 mx-auto container');
+  const h1 = document.createElement('h1');
+  $(h1).addClass('text-center display-2');
+  $(h1).text('Your cart is empty');
+  $(jumbotron).append(h1);
+  $('.insert-page').empty();
+  console.log(jumbotron);
+  $('.insert-page').append(jumbotron);
 };
 // Create a card from an object that has an image url, name, price
 export const cardCreate = (object) => {

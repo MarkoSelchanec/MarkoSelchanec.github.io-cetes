@@ -15,6 +15,8 @@ $(document).ready(function () {
   $('#carouselCaptions').removeClass('d-none');
   $('#paginate').addClass('d-none');
   $('#nav-home').addClass('active');
+  $('.table').addClass('d-none');
+  $('.table').removeClass('d-table');
   // navigate to home page
   $('#nav-home').click((e) => {
     setUpPage(e, '#nav-home');
@@ -27,6 +29,8 @@ $(document).ready(function () {
     $('#carouselCaptions').addClass('d-none');
     $('#paginate').removeClass('d-none');
     $('.pagination').empty();
+    $('.table').addClass('d-none');
+    $('.table').removeClass('d-table');
     let tempArr = [];
     createCardArray(cardArray, cardCreate, tempArr);
     let final = splitArray(tempArr);
