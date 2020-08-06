@@ -1,3 +1,70 @@
+// Cart items get added to this array
+export let cartArray = [];
+// Create cart items page
+export const showCart = () => {
+  $('.insert-page').empty();
+  $('#carouselCaptions').addClass('d-none');
+  // let tempArr = groupBy(cartArray, 'name');
+  $('#paginate').addClass('d-none');
+  $('.pagination').empty();
+  makeCart();
+  // for (const item of tempArr) {
+  //   const row = document.createElement('tr');
+  //   const tvalues = [
+  //     item.values[0].img,
+  //     item.key,
+  //     item.values.length,
+  //     item.values[0].price,
+  //     item.values[0].price * item.values.length,
+  //   ];
+  //   $('.table-body').append(row);
+  //   for (let i = 0; i < 5; i++) {
+  //     const cell = document.createElement('td');
+  //     if (i === 0) {
+  //       const img = document.createElement('img');
+  //       $(img)
+  //         .attr('src', tvalues[i])
+  //         .attr('alt', 'item-image')
+  //         .css('height', '50px')
+  //         .css('object-fit', 'cover');
+  //       $(cell).html(img);
+  //     } else {
+  //       $(cell).html(tvalues[i]);
+  //     }
+  //     $(row).append(cell);
+  //   }
+  // }
+};
+// Add items to array which gets added to cart
+const makeCart = () => {
+  let tempArr = groupBy(cartArray, 'name');
+  for (const item of tempArr) {
+    const row = document.createElement('tr');
+    const tvalues = [
+      item.values[0].img,
+      item.key,
+      item.values.length,
+      item.values[0].price,
+      item.values[0].price * item.values.length,
+    ];
+    $('.table-body').append(row);
+    for (let i = 0; i < 5; i++) {
+      const cell = document.createElement('td');
+      if (i === 0) {
+        const img = document.createElement('img');
+        $(img)
+          .attr('src', tvalues[i])
+          .attr('alt', 'item-image')
+          .css('height', '50px')
+          .css('object-fit', 'cover');
+        $(cell).html(img);
+      } else {
+        $(cell).html(tvalues[i]);
+      }
+      $(row).append(cell);
+    }
+  }
+};
 // Create a card from an object that has an image url, name, price
 export const cardCreate = (object) => {
   const card = document.createElement('card');
@@ -14,7 +81,17 @@ export const cardCreate = (object) => {
   $(body).addClass('card-body');
   $(cardTitle).addClass('card-title').text(object.name);
   $(cardText).addClass('card-text').text(object.price);
-  $(cardBtn).addClass('btn btn-primary').text('BUY').attr('href', '#');
+  $(cardBtn).addClass('btn btn-primary').text('Add to cart').attr('href', '#');
+  $(card).click((e) => {
+    e.preventDefault();
+    alert('card');
+  });
+  $(cardBtn).click((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cartArray.push(object);
+    $('.shopping-cart-items').text(cartArray.length);
+  });
   $(body).append(cardTitle).append(cardText).append(cardBtn);
   return card;
 };
@@ -39,7 +116,7 @@ export const splitArray = (inArray) => {
 // Take in an array which has already been split into smaller arrays and return a bootstrap row
 export const rowCreate = (array, pageCount) => {
   let row = document.createElement('div');
-  $(row).addClass('row d-flex justify-content-center');
+  $(row).addClass('row d-flex justify-content-start');
   for (const a of array[pageCount - 1]) {
     let column = document.createElement('div');
     $(column).addClass('col-xs');
@@ -157,3 +234,18 @@ export const setUpPage = (e, navItemId) => {
   $('.insert-page').empty();
   navStateToggle(navItemId);
 };
+// Vanilla groupBy
+const groupBy = function (xs, key) {
+  return xs.reduce(function (rv, x) {
+    let v = key instanceof Function ? key(x) : x[key];
+    let el = rv.find((r) => r && r.key === v);
+    if (el) {
+      el.values.push(x);
+    } else {
+      rv.push({ key: v, values: [x] });
+    }
+    return rv;
+  }, []);
+};
+
+// groupByArray(xs, key) { return xs.reduce(function (rv, x) { let v = key instanceof Function ? key(x) : x[key]; let el = rv.find((r) => r && r.key === v); if (el) { el.values.push(x); } else { rv.push({ key: v, values: [x] }); } return rv; }, []); }

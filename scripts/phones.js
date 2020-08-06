@@ -11,10 +11,10 @@ class phone {
 const xiaomi = new phone(
   'https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-9-0.jpg',
   'Xiaomi Redmi 9 Prime',
-  `400$`
+  `400`
 );
 
-let phonesData = [
+export let phones = [
   xiaomi,
   xiaomi,
   xiaomi,
@@ -26,8 +26,8 @@ let phonesData = [
   xiaomi,
 ];
 
-let phonesFullCards = [];
+// let phonesFullCards = [];
 
-createCardArray(phonesData, cardCreate, phonesFullCards);
+// createCardArray(phonesData, cardCreate, phonesFullCards);
 
-export let phones = splitArray(phonesFullCards);
+// export let phones = splitArray(phonesFullCards);
