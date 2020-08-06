@@ -4,39 +4,14 @@ export let cartArray = [];
 export const showCart = () => {
   $('.insert-page').empty();
   $('#carouselCaptions').addClass('d-none');
-  // let tempArr = groupBy(cartArray, 'name');
   $('#paginate').addClass('d-none');
   $('.pagination').empty();
   makeCart();
-  // for (const item of tempArr) {
-  //   const row = document.createElement('tr');
-  //   const tvalues = [
-  //     item.values[0].img,
-  //     item.key,
-  //     item.values.length,
-  //     item.values[0].price,
-  //     item.values[0].price * item.values.length,
-  //   ];
-  //   $('.table-body').append(row);
-  //   for (let i = 0; i < 5; i++) {
-  //     const cell = document.createElement('td');
-  //     if (i === 0) {
-  //       const img = document.createElement('img');
-  //       $(img)
-  //         .attr('src', tvalues[i])
-  //         .attr('alt', 'item-image')
-  //         .css('height', '50px')
-  //         .css('object-fit', 'cover');
-  //       $(cell).html(img);
-  //     } else {
-  //       $(cell).html(tvalues[i]);
-  //     }
-  //     $(row).append(cell);
-  //   }
-  // }
 };
 // Add items to array which gets added to cart
 const makeCart = () => {
+  console.log(cartArray);
+  $(".table-body").empty()
   let tempArr = groupBy(cartArray, 'name');
   for (const item of tempArr) {
     const row = document.createElement('tr');
