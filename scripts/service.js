@@ -124,7 +124,6 @@ export const paginate = (array) => {
           $('.insert-page').empty();
           currentPage = i;
           $('.insert-page').append(pageCreate(rowCreate(array, currentPage)));
-          console.log($('.pagination').children());
           for (const key of $('.pagination').children()) {
             key.classList.remove('active');
           }
@@ -144,4 +143,17 @@ export const paginate = (array) => {
     }
   }
   $('#paginate-prev').addClass('disabled');
+};
+// Toggle active state on navbar, takes in the id of the navigation
+export const navStateToggle = (navItemId) => {
+  for (const item of $('.navbar-nav').find('li').find('a')) {
+    $(item).removeClass('active');
+  }
+  $(navItemId).addClass('active');
+};
+// Reset elements function
+export const setUpPage = (e, navItemId) => {
+  e.preventDefault();
+  $('.insert-page').empty();
+  navStateToggle(navItemId);
 };
