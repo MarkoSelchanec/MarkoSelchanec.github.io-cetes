@@ -47,7 +47,7 @@ body {
   margin: 0 auto;
 }
 .success-alert {
-  position: absolute;
   right: 12%;
   z-index: 2;
+  top: 15vh;
 }

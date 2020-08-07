@@ -14,6 +14,7 @@ export const showCart = () => {
 };
 // Add items to array which gets added to cart
 const makeCart = () => {
+  let totalAmount = [];
   $('.table-body').empty();
   for (const item of $('.navbar-nav').find('li').find('a')) {
     $(item).removeClass('active');
@@ -46,6 +47,7 @@ const makeCart = () => {
             createJumbo();
             $('.table').addClass('d-none');
             $('.table').removeClass('d-table');
+            $('.sub-tbl').empty();
           }
         });
         $(cell).html(btn);
@@ -66,6 +68,9 @@ const makeCart = () => {
       }
       $(row).append(cell);
     }
+    console.log(totalAmount);
+    totalAmount.push(item.values[0].price * item.values.length);
+    getTotalValueAndBtn(totalAmount);
   }
 };
 // Create and show jumbotron for empty cart
@@ -100,8 +105,8 @@ export const cardCreate = (object) => {
   const amount = document.createElement('h2');
   const more = document.createElement('a');
   const less = document.createElement('a');
-  $(more).html('+').addClass('btn btn-primary w-50 h-50 btn-sm text-white');
-  $(less).html('-').addClass('btn btn-primary w-50 h-50 btn-sm text-white');
+  $(more).html('+').addClass('btn btn-primary w-50 h-50 text-white');
+  $(less).html('-').addClass('btn btn-primary w-50 h-50 text-white');
   $(more).click((e) => {
     e.stopPropagation();
     let tempAmount = parseInt($(amount).text());
@@ -318,4 +323,20 @@ const createAlert = (object, alertType, amount) => {
   setTimeout(() => {
     $(alert).remove();
   }, 5000);
+};
+// Construct purchase btn and total amount to pay
+const getTotalValueAndBtn = (array) => {
+  $('.sub-tbl').empty();
+  const buyBtn = document.createElement('button');
+  const totalDiv = document.createElement('div');
+  let sum = array.reduce((a, b) => a + b, 0);
+  $(totalDiv)
+    .addClass(
+      'd-block container border d-flex p-3 justify-content-center mt-5 text-white  display-3 w-100'
+    )
+    .html(`Total price: ${sum}`);
+  $(buyBtn)
+    .addClass('btn btn-primary text-lowercase w-100 mx-auto container d-block')
+    .html('Proceed to payment');
+  $('.sub-tbl').append(totalDiv).append(buyBtn);
 };
