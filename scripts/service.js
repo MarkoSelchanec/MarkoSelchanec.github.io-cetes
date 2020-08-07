@@ -41,6 +41,7 @@ const makeCart = () => {
           $(row).empty();
           cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
           $('.shopping-cart-items').text(cartArray.length);
+          createAlert(item.values[0].name, 'alert-danger');
           if (cartArray.length === 0) {
             createJumbo();
             $('.table').addClass('d-none');
@@ -75,8 +76,16 @@ const createJumbo = () => {
   $(h1).addClass('text-center display-2');
   $(h1).text('Your cart is empty');
   $(jumbotron).append(h1);
+
+  const btn = document.createElement('button');
+  $(btn)
+    .addClass('btn btn-primary text-lowercase w-100 mx-auto container d-block')
+    .html('continue shopping');
+  $(btn).click(() => {
+    $('#nav-home').click();
+  });
   $('.insert-page').empty();
-  $('.insert-page').append(jumbotron);
+  $('.insert-page').append(jumbotron).append(btn);
 };
 // Create a card from an object that has an image url, name, price
 export const cardCreate = (object) => {
@@ -86,15 +95,43 @@ export const cardCreate = (object) => {
   const cardTitle = document.createElement('h5');
   const cardText = document.createElement('p');
   const cardBtn = document.createElement('a');
+  const btnDiv = document.createElement('div');
+  const moreLessDiv = document.createElement('div');
+  const amount = document.createElement('h2');
+  const more = document.createElement('a');
+  const less = document.createElement('a');
+  $(more).html('+').addClass('btn btn-primary w-50 h-50 btn-sm text-white');
+  $(less).html('-').addClass('btn btn-primary w-50 h-50 btn-sm text-white');
+  $(more).click((e) => {
+    e.stopPropagation();
+    let tempAmount = parseInt($(amount).text());
+    tempAmount += 1;
+    $(amount).html(tempAmount);
+  });
+  $(less).click((e) => {
+    e.stopPropagation();
+    if (parseInt($(amount).text()) > 1) {
+      let tempAmount = parseInt($(amount).text());
+      tempAmount -= 1;
+      $(amount).html(tempAmount);
+    }
+  });
+  $(amount).html(1);
+  $(moreLessDiv).append(more).append(less).addClass('ml-auto mr-2');
+  $(btnDiv).addClass('d-flex align-items-center');
+  $(btnDiv).append(amount).append(moreLessDiv).append(cardBtn);
   $(card).addClass('card').append(img).append(body);
   $(img)
     .attr('src', object.img)
-    .attr('alt', 'nothink for now')
+    .attr('alt', 'item image')
     .addClass('card-img-top m-auto pt-3');
   $(body).addClass('card-body');
   $(cardTitle).addClass('card-title').text(object.name);
   $(cardText).addClass('card-text').text(object.price);
-  $(cardBtn).addClass('btn btn-primary').text('Add to cart').attr('href', '#');
+  $(cardBtn)
+    .addClass('btn btn-primary h-50')
+    .text('Add to cart')
+    .attr('href', '#');
   $(card).click((e) => {
     e.preventDefault();
     alert('card');
@@ -102,20 +139,14 @@ export const cardCreate = (object) => {
   $(cardBtn).click((e) => {
     e.preventDefault();
     e.stopPropagation();
-    cartArray.push(object);
+    for (let i = 0; i < parseInt($(amount).text()); i++) {
+      cartArray.push(object);
+    }
     $('.shopping-cart-items').text(cartArray.length);
-    const alert = document.createElement('div');
-    $(alert).addClass('alert alert-success m-0').attr('role', 'alert');
-    $(alert).text(`You added ${object.name} to your cart.`);
-    $('.success-alert').append(alert).children(':last').hide().fadeIn(300);
-    setTimeout(() => {
-      $(alert).fadeOut(300);
-    }, 4700);
-    setTimeout(() => {
-      $(alert).remove();
-    }, 5000);
+    createAlert(object, 'alert-info', parseInt($(amount).text()));
+    $(amount).html(1);
   });
-  $(body).append(cardTitle).append(cardText).append(cardBtn);
+  $(body).append(cardTitle).append(cardText).append(btnDiv);
   return card;
 };
 // Take in an array, a method to convert each element from that array, spit out a new array with modified elements
@@ -270,5 +301,21 @@ const groupBy = function (xs, key) {
     return rv;
   }, []);
 };
-
-// groupByArray(xs, key) { return xs.reduce(function (rv, x) { let v = key instanceof Function ? key(x) : x[key]; let el = rv.find((r) => r && r.key === v); if (el) { el.values.push(x); } else { rv.push({ key: v, values: [x] }); } return rv; }, []); }
+// Alert function
+const createAlert = (object, alertType, amount) => {
+  const alert = document.createElement('div');
+  $(alert).addClass(`alert ${alertType} m-0`).attr('role', 'alert');
+  if (alertType === 'alert-info') {
+    $(alert).text(`You added ${amount} ${object.name} to your cart.`);
+  }
+  if (alertType === 'alert-danger') {
+    $(alert).text(`You removed ${object} from your cart.`);
+  }
+  $('.success-alert').append(alert).children(':last').hide().fadeIn(300);
+  setTimeout(() => {
+    $(alert).fadeOut(300);
+  }, 4700);
+  setTimeout(() => {
+    $(alert).remove();
+  }, 5000);
+};

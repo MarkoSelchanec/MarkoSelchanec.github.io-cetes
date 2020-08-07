@@ -1,5 +1,3 @@
-import { cardCreate, createCardArray, splitArray } from './service.js';
-
 class laptop {
   constructor(img, name, price) {
     this.img = img;
@@ -211,9 +209,3 @@ export let laptops = [
     `800`
   ),
 ];
-
-// let laptopsFullCards = [];
-
-// createCardArray(lapTopsData, cardCreate, laptopsFullCards);
-
-// export let laptops = splitArray(laptopsFullCards);

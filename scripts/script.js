@@ -4,7 +4,6 @@ import {
   paginate,
   setUpPage,
   createCardArray,
-  cartArray,
   showCart,
   cardCreate,
   splitArray,
@@ -23,6 +22,7 @@ $(document).ready(function () {
     $('#paginate').addClass('d-none');
     $('#paginate').removeClass('d-flex');
     $('#carouselCaptions').removeClass('d-none');
+    $('.success-alert').empty();
   });
   const generateAndNavigateToPage = (event, navID, cardArray) => {
     setUpPage(event, navID);
@@ -47,7 +47,6 @@ $(document).ready(function () {
   // navigate to consoles and games
   $('#nav-consoles').click((e) => {
     e.preventDefault();
-    console.log(cartArray);
   });
   // navigate to cart site
   $('.cart-page').click((e) => {
