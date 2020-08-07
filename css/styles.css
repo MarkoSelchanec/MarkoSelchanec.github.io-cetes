@@ -46,3 +46,8 @@ body {
 .center {
   margin: 0 auto;
 }
+.success-alert {
+  position: absolute;
+  right: 12%;
+  z-index: 2;
+}

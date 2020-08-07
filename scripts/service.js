@@ -15,52 +15,55 @@ export const showCart = () => {
 // Add items to array which gets added to cart
 const makeCart = () => {
   $('.table-body').empty();
-  console.log(cartArray);
+  for (const item of $('.navbar-nav').find('li').find('a')) {
+    $(item).removeClass('active');
+  }
   if (cartArray.length === 0) {
     createJumbo();
-  } else {
-    let tempArr = groupBy(cartArray, 'name');
-    for (let item of tempArr) {
-      const row = document.createElement('tr');
-      const tvalues = [
-        item.values[0].img,
-        item.key,
-        item.values.length,
-        item.values[0].price,
-        item.values[0].price * item.values.length,
-      ];
-      $('.table-body').append(row);
-      for (let i = -1; i < 5; i++) {
-        const cell = document.createElement('td');
-        if (i === -1) {
-          const btn = document.createElement('button');
-          $(btn).text('X').addClass('btn btn-primary text-white text-center');
-          $(btn).click(() => {
-            $(row).empty();
-            cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
-            $('.shopping-cart-items').text(cartArray.length);
+  }
+  let tempArr = groupBy(cartArray, 'name');
+  for (let item of tempArr) {
+    const row = document.createElement('tr');
+    const tvalues = [
+      item.values[0].img,
+      item.key,
+      item.values.length,
+      item.values[0].price,
+      item.values[0].price * item.values.length,
+    ];
+    $('.table-body').append(row);
+    for (let i = -1; i < 5; i++) {
+      const cell = document.createElement('td');
+      if (i === -1) {
+        const btn = document.createElement('button');
+        $(btn).text('X').addClass('btn btn-primary text-white text-center');
+        $(btn).click(() => {
+          $(row).empty();
+          cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
+          $('.shopping-cart-items').text(cartArray.length);
+          if (cartArray.length === 0) {
+            createJumbo();
             $('.table').addClass('d-none');
             $('.table').removeClass('d-table');
-            createJumbo();
-          });
-          $(cell).html(btn);
-        }
-        if (i === 0) {
-          const img = document.createElement('img');
-          $(img)
-            .attr('src', tvalues[i])
-            .attr('alt', 'item-image')
-            .css('height', '50px')
-            .css('object-fit', 'cover');
-          $(cell).html(img);
-        } else {
-          if (i === 1 || i === 3) {
-            $(cell).addClass('d-md-table-cell d-none');
           }
-          $(cell).html(tvalues[i]);
-        }
-        $(row).append(cell);
+        });
+        $(cell).html(btn);
       }
+      if (i === 0) {
+        const img = document.createElement('img');
+        $(img)
+          .attr('src', tvalues[i])
+          .attr('alt', 'item-image')
+          .css('height', '50px')
+          .css('object-fit', 'cover');
+        $(cell).html(img);
+      } else {
+        if (i === 1 || i === 3) {
+          $(cell).addClass('d-md-table-cell d-none');
+        }
+        $(cell).html(tvalues[i]);
+      }
+      $(row).append(cell);
     }
   }
 };
@@ -73,7 +76,6 @@ const createJumbo = () => {
   $(h1).text('Your cart is empty');
   $(jumbotron).append(h1);
   $('.insert-page').empty();
-  console.log(jumbotron);
   $('.insert-page').append(jumbotron);
 };
 // Create a card from an object that has an image url, name, price
@@ -102,6 +104,16 @@ export const cardCreate = (object) => {
     e.stopPropagation();
     cartArray.push(object);
     $('.shopping-cart-items').text(cartArray.length);
+    const alert = document.createElement('div');
+    $(alert).addClass('alert alert-success m-0').attr('role', 'alert');
+    $(alert).text(`You added ${object.name} to your cart.`);
+    $('.success-alert').append(alert).children(':last').hide().fadeIn(300);
+    setTimeout(() => {
+      $(alert).fadeOut(300);
+    }, 4700);
+    setTimeout(() => {
+      $(alert).remove();
+    }, 5000);
   });
   $(body).append(cardTitle).append(cardText).append(cardBtn);
   return card;
@@ -127,7 +139,7 @@ export const splitArray = (inArray) => {
 // Take in an array which has already been split into smaller arrays and return a bootstrap row
 export const rowCreate = (array, pageCount) => {
   let row = document.createElement('div');
-  $(row).addClass('row d-flex justify-content-start');
+  $(row).addClass('row d-flex justify-content-center');
   for (const a of array[pageCount - 1]) {
     let column = document.createElement('div');
     $(column).addClass('col-xs');
