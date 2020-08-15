@@ -44,10 +44,6 @@ $(document).ready(function () {
   $('#nav-phones, #phones-carousel').click((e) => {
     generateAndNavigateToPage(e, '#nav-phones', phones);
   });
-  // navigate to consoles and games
-  $('#nav-consoles').click((e) => {
-    e.preventDefault();
-  });
   // navigate to cart site
   $('.cart-page').click((e) => {
     e.preventDefault();

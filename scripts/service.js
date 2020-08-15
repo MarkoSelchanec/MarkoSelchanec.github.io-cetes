@@ -73,6 +73,23 @@ const makeCart = () => {
     getTotalValueAndBtn(totalAmount);
   }
 };
+// create and show the product page when you click on the card
+const createProductPage = (obj) => {
+  $('#carouselCaptions').addClass('d-none');
+  $('#paginate').removeClass('d-none');
+  $('.pagination').empty();
+  $('.table').addClass('d-none');
+  $('.table').removeClass('d-table');
+  $('.insert-page').empty();
+  let div = document.createElement('div');
+  $(div).addClass('container my-5 d-flex flex-column align-items-center');
+  let img = document.createElement('img');
+  $(img).css('width', '75%').attr('src', obj.img);
+  let itemName = document.createElement('h1');
+  $(itemName).text(obj.name).addClass('text-center text-white my-5');
+  $(div).append(img).append(itemName);
+  $('.insert-page').append(div);
+};
 // Create and show jumbotron for empty cart
 const createJumbo = () => {
   const jumbotron = document.createElement('div');
@@ -81,7 +98,6 @@ const createJumbo = () => {
   $(h1).addClass('text-center display-2');
   $(h1).text('Your cart is empty');
   $(jumbotron).append(h1);
-
   const btn = document.createElement('button');
   $(btn)
     .addClass('btn btn-primary text-lowercase w-100 mx-auto container d-block')
@@ -139,7 +155,7 @@ export const cardCreate = (object) => {
     .attr('href', '#');
   $(card).click((e) => {
     e.preventDefault();
-    alert('card');
+    createProductPage(object);
   });
   $(cardBtn).click((e) => {
     e.preventDefault();
