@@ -1,5 +1,4 @@
-import { laptops } from './laptops.js';
-import { phones } from './phones.js';
+import { laptops, phones } from './products.js';
 import {
   paginate,
   setUpPage,

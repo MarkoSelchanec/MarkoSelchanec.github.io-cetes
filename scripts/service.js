@@ -169,7 +169,7 @@ export const cardCreate = (object) => {
   $(moreLessDiv).append(more).append(less).addClass('ml-auto mr-2');
   $(btnDiv).addClass('d-flex align-items-center');
   $(btnDiv).append(amount).append(moreLessDiv).append(cardBtn);
-  $(card).addClass('card').append(img).append(body);
+  $(card).addClass('card').append(img).append(body).css('cursor', 'pointer');
   $(img)
     .attr('src', object.img)
     .attr('alt', 'item image')
@@ -177,7 +177,10 @@ export const cardCreate = (object) => {
     .css('object-fit', 'cover')
     .css('height', '170px');
   $(body).addClass('card-body');
-  $(cardTitle).addClass('card-title').text(`${object.brand} - ${object.name}`);
+  $(cardTitle)
+    .addClass('card-title')
+    .text(`${object.brand} - ${object.name}`)
+    .css('height', '3rem');
   $(cardText)
     .addClass('card-text')
     .text(object.price + ' \u20AC');
