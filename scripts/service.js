@@ -68,7 +68,6 @@ const makeCart = () => {
       }
       $(row).append(cell);
     }
-    console.log(totalAmount);
     totalAmount.push(item.values[0].price * item.values.length);
     getTotalValueAndBtn(totalAmount);
   }
@@ -86,8 +85,37 @@ const createProductPage = (obj) => {
   let img = document.createElement('img');
   $(img).css('width', '75%').attr('src', obj.img);
   let itemName = document.createElement('h1');
-  $(itemName).text(obj.name).addClass('text-center text-white my-5');
-  $(div).append(img).append(itemName);
+  let itemDetails = document.createElement('ul');
+  $(itemDetails).addClass('text-white');
+  let price = document.createElement('h2');
+  const buyBtn = document.createElement('button');
+  $(buyBtn)
+    .addClass('btn btn-primary w-50 mx-auto container d-block')
+    .html('Add to cart')
+    .click((e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      cartArray.push(obj);
+      $('.shopping-cart-items').text(cartArray.length);
+      createAlert(obj, 'alert-info', '');
+    });
+  $(price)
+    .text(obj.price + '\u20AC')
+    .addClass('text-white m-5 display-2');
+  for (const e of obj.description) {
+    let itemDetail = document.createElement('li');
+    $(itemDetail).text(e);
+    $(itemDetails).append(itemDetail);
+  }
+  $(itemName)
+    .text(`${obj.brand} - ${obj.name}`)
+    .addClass('text-center text-white my-5');
+  $(div)
+    .append(img)
+    .append(itemName)
+    .append(itemDetails)
+    .append(price)
+    .append(buyBtn);
   $('.insert-page').append(div);
 };
 // Create and show jumbotron for empty cart
@@ -145,10 +173,14 @@ export const cardCreate = (object) => {
   $(img)
     .attr('src', object.img)
     .attr('alt', 'item image')
-    .addClass('card-img-top m-auto pt-3');
+    .addClass('card-img-top m-auto pt-3')
+    .css('object-fit', 'cover')
+    .css('height', '170px');
   $(body).addClass('card-body');
-  $(cardTitle).addClass('card-title').text(object.name);
-  $(cardText).addClass('card-text').text(object.price);
+  $(cardTitle).addClass('card-title').text(`${object.brand} - ${object.name}`);
+  $(cardText)
+    .addClass('card-text')
+    .text(object.price + ' \u20AC');
   $(cardBtn)
     .addClass('btn btn-primary h-50')
     .text('Add to cart')
@@ -350,7 +382,7 @@ const getTotalValueAndBtn = (array) => {
     .addClass(
       'd-block container border d-flex p-3 justify-content-center mt-5 text-white  display-3 w-100'
     )
-    .html(`Total price: ${sum}`);
+    .html(`Total price: ${sum}` + ' \u20AC');
   $(buyBtn)
     .addClass('btn btn-primary text-lowercase w-100 mx-auto container d-block')
     .html('Proceed to payment');

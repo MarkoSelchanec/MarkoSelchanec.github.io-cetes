@@ -31,6 +31,7 @@ $(document).ready(function () {
     $('.pagination').empty();
     $('.table').addClass('d-none');
     $('.table').removeClass('d-table');
+    $('.sub-tbl').empty();
     let tempArr = [];
     createCardArray(cardArray, cardCreate, tempArr);
     let final = splitArray(tempArr);
