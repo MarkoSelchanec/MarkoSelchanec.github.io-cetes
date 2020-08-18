@@ -1,12 +1,5 @@
 import { laptops, phones } from './products.js';
-import {
-  paginate,
-  setUpPage,
-  createCardArray,
-  showCart,
-  cardCreate,
-  splitArray,
-} from './service.js';
+import { setUpPage, showCart, generateAndNavigateToPage } from './service.js';
 
 $(document).ready(function () {
   // first load of page
@@ -25,19 +18,7 @@ $(document).ready(function () {
       $('#carouselCaptions').removeClass('d-none');
       $('.success-alert').empty();
     });
-  const generateAndNavigateToPage = (event, navID, cardArray) => {
-    setUpPage(event, navID);
-    $('#carouselCaptions').addClass('d-none');
-    $('#paginate').removeClass('d-none');
-    $('.pagination').empty();
-    $('.table').addClass('d-none');
-    $('.table').removeClass('d-table');
-    $('.sub-tbl').empty();
-    let tempArr = [];
-    createCardArray(cardArray, cardCreate, tempArr);
-    let final = splitArray(tempArr);
-    paginate(final);
-  };
+
   // navigate to laptops page
   $('#nav-laptops, #laptops-carousel').click((e) => {
     generateAndNavigateToPage(e, '#nav-laptops', laptops);

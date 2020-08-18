@@ -1,3 +1,16 @@
+export const generateAndNavigateToPage = (event, navID, cardArray) => {
+  setUpPage(event, navID);
+  $('#carouselCaptions').addClass('d-none');
+  $('#paginate').removeClass('d-none');
+  $('.pagination').empty();
+  $('.table').addClass('d-none');
+  $('.table').removeClass('d-table');
+  $('.sub-tbl').empty();
+  let tempArr = [];
+  createCardArray(cardArray, cardCreate, tempArr);
+  let final = splitArray(tempArr);
+  paginate(final);
+};
 // Cart items get added to this array
 export let cartArray = [];
 // Create cart items page
@@ -44,7 +57,7 @@ const makeCart = () => {
           cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
           $('.shopping-cart-items').text(cartArray.length);
           createAlert(item.values[0].name, 'alert-danger');
-          makeCart()
+          makeCart();
           if (cartArray.length === 0) {
             createJumbo();
             $('.table').addClass('d-none');
@@ -151,8 +164,14 @@ export const cardCreate = (object) => {
   const amount = document.createElement('h2');
   const more = document.createElement('a');
   const less = document.createElement('a');
-  $(more).html('+').addClass('btn btn-primary w-50 h-50 text-white');
-  $(less).html('-').addClass('btn btn-primary w-50 h-50 text-white');
+  $(more)
+    .html('+')
+    .addClass('btn btn-primary w-50 h-50 text-white')
+    .css('cursor', 'pointer');
+  $(less)
+    .html('-')
+    .addClass('btn btn-primary w-50 h-50 text-white')
+    .css('cursor', 'pointer');
   $(more).click((e) => {
     e.stopPropagation();
     let tempAmount = parseInt($(amount).text());
@@ -171,13 +190,14 @@ export const cardCreate = (object) => {
   $(moreLessDiv).append(more).append(less).addClass('ml-auto mr-2');
   $(btnDiv).addClass('d-flex align-items-center');
   $(btnDiv).append(amount).append(moreLessDiv).append(cardBtn);
-  $(card).addClass('card').append(img).append(body).css('cursor', 'pointer');
+  $(card).addClass('card').append(img).append(body);
   $(img)
     .attr('src', object.img)
     .attr('alt', 'item image')
     .addClass('card-img-top m-auto pt-3')
     .css('object-fit', 'cover')
-    .css('height', '170px');
+    .css('height', '170px')
+    .css('cursor', 'pointer');
   $(body).addClass('card-body');
   $(cardTitle)
     .addClass('card-title')
@@ -190,7 +210,7 @@ export const cardCreate = (object) => {
     .addClass('btn btn-primary h-50')
     .text('Add to cart')
     .attr('href', '#');
-  $(card).click((e) => {
+  $(img).click((e) => {
     e.preventDefault();
     createProductPage(object);
   });
@@ -240,7 +260,9 @@ export const rowCreate = (array, pageCount) => {
 // Create a page / takes in a row and paints the page
 export const pageCreate = (row) => {
   const container = document.createElement('div');
-  $(container).addClass(' container container-cards my-5 mx-auto');
+  $(container).addClass(
+    ' container container-cards my-5 mx-auto d-flex flex-row'
+  );
   $(container).append(row);
   $('.insert-page').append(container);
   return container;
