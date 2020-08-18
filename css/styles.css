@@ -49,5 +49,5 @@ body {
 .success-alert {
   right: 12%;
   z-index: 2;
-  top: 15vh;
+  bottom: 15vh;
 }

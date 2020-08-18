@@ -16,13 +16,15 @@ $(document).ready(function () {
   $('.table').addClass('d-none');
   $('.table').removeClass('d-table');
   // navigate to home page
-  $('#nav-home').click((e) => {
-    setUpPage(e, '#nav-home');
-    $('#paginate').addClass('d-none');
-    $('#paginate').removeClass('d-flex');
-    $('#carouselCaptions').removeClass('d-none');
-    $('.success-alert').empty();
-  });
+  $('#nav-home')
+    .add('.brand-link')
+    .click((e) => {
+      setUpPage(e, '#nav-home');
+      $('#paginate').addClass('d-none');
+      $('#paginate').removeClass('d-flex');
+      $('#carouselCaptions').removeClass('d-none');
+      $('.success-alert').empty();
+    });
   const generateAndNavigateToPage = (event, navID, cardArray) => {
     setUpPage(event, navID);
     $('#carouselCaptions').addClass('d-none');

@@ -33,6 +33,7 @@ const makeCart = () => {
       item.values[0].price * item.values.length,
     ];
     $('.table-body').append(row);
+
     for (let i = -1; i < 5; i++) {
       const cell = document.createElement('td');
       if (i === -1) {
@@ -43,6 +44,7 @@ const makeCart = () => {
           cartArray = cartArray.filter((e) => e.name !== item.values[0].name);
           $('.shopping-cart-items').text(cartArray.length);
           createAlert(item.values[0].name, 'alert-danger');
+          makeCart()
           if (cartArray.length === 0) {
             createJumbo();
             $('.table').addClass('d-none');
